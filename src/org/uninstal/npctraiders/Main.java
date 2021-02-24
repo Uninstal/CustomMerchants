@@ -2,6 +2,7 @@ package org.uninstal.npctraiders;
 
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -46,6 +47,32 @@ public class Main extends JavaPlugin {
 		}
 		
 		Bukkit.getPluginManager().registerEvents(new Listener(), this);
+	}
+	
+	@Override
+	public void onDisable() {
+		YamlConfiguration data = new YamlConfiguration();
+		
+		for(Entry<String, LinkedList<Merch>> entry : merchs.entrySet()) {
+			
+			String merchId = entry.getKey();
+			LinkedList<Merch> merchs = entry.getValue();
+			
+			for(Merch merch : merchs) {
+				
+				ItemStack itemStack1 = merch.getIngredient1();
+				ItemStack itemStack2 = merch.getIngredient2();
+				ItemStack itemStack3 = merch.getResult();
+				
+				data.set(merchId + ".i1", itemStack1);
+				data.set(merchId + ".i2", itemStack2);
+				data.set(merchId + ".r", itemStack3);
+				
+				continue;
+			}
+		}
+		
+		this.files.save("merchs", data);
 	}
 	
 	@Override
