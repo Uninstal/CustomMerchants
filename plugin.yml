@@ -1,0 +1,5 @@
+name: CustomMerchants
+main: org.uninstal.npctraiders.Main
+version: 1.0
+commands:
+  merch:
