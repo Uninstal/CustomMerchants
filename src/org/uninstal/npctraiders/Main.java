@@ -160,6 +160,7 @@ public class Main extends JavaPlugin {
 						inventory.setItem(k2, itemStack2);
 						inventory.setItem(k3, itemStack3);
 						
+						k++;
 						continue;
 					}
 					
