@@ -1,5 +1,6 @@
 package org.uninstal.npctraiders;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,14 +14,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.uninstal.npctraiders.data.Merch;
-
-import com.github.RulerOfTheCards.core.Merchant;
-import com.github.RulerOfTheCards.core.MerchantOffer;
+import org.uninstal.npctraiders.data.reflection.Merchant;
+import org.uninstal.npctraiders.data.reflection.MerchantOffer;
 
 public class Main extends JavaPlugin {
 	
 	private Files files;
-	public Map<String, LinkedList<Merch>> merchs;
+	public Map<String, LinkedList<Merch>> merchs = new HashMap<>();
 
 	@Override
 	public void onEnable() {
@@ -58,16 +58,18 @@ public class Main extends JavaPlugin {
 			String merchId = entry.getKey();
 			LinkedList<Merch> merchs = entry.getValue();
 			
+			int slot = 1;
 			for(Merch merch : merchs) {
 				
 				ItemStack itemStack1 = merch.getIngredient1();
 				ItemStack itemStack2 = merch.getIngredient2();
 				ItemStack itemStack3 = merch.getResult();
 				
-				data.set(merchId + ".i1", itemStack1);
-				data.set(merchId + ".i2", itemStack2);
-				data.set(merchId + ".r", itemStack3);
+				data.set(merchId + "." + slot + ".i1", itemStack1);
+				data.set(merchId + "." + slot + ".i2", itemStack2);
+				data.set(merchId + "." + slot + ".r", itemStack3);
 				
+				slot++;
 				continue;
 			}
 		}
@@ -90,14 +92,14 @@ public class Main extends JavaPlugin {
 				
 				if(merchs == null) {
 					
-					sender.sendMessage("Merch is null!");
+					sender.sendMessage("Merch ID is null or not configured.");
 					return false;
 				}
 				
 				Player player = Bukkit.getPlayer(playerName);
 				if(player == null) {
 					
-					sender.sendMessage("Player is null!");
+					sender.sendMessage("Player is null.");
 					return false;
 				}
 				
@@ -117,7 +119,7 @@ public class Main extends JavaPlugin {
 						continue;
 					}
 					
-					merchant.setTitle(merchId);
+					merchant.setTitle("Торговля");
 					merchant.openTrading(player);
 					
 					return false;
@@ -129,6 +131,7 @@ public class Main extends JavaPlugin {
 				String merchId = args[1];
 				this.merchs.put(merchId, null);
 				
+				sender.sendMessage("Merch '" + merchId + "' was created.");
 				return false;
 			}
 			
@@ -137,7 +140,8 @@ public class Main extends JavaPlugin {
 				String merchId = args[1];
 				Player player = (Player) sender;
 				
-				if(this.merchs.containsKey(merchId)) {
+				if(this.merchs.containsKey(merchId)
+						&& this.merchs.get(merchId) != null) {
 					
 					LinkedList<Merch> list = this.merchs.get(merchId);
 					Inventory inventory = Bukkit.createInventory(null, 3*9, "Merchant Editor: " + merchId);
@@ -165,7 +169,7 @@ public class Main extends JavaPlugin {
 				
 				else {
 					
-					Inventory inventory = Bukkit.createInventory(null, 3*9, "Merchant Editor");
+					Inventory inventory = Bukkit.createInventory(null, 3*9, "Merchant Editor: " + merchId);
 					player.openInventory(inventory);
 					
 					return false;

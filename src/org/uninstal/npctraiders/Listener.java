@@ -29,11 +29,11 @@ public class Listener implements org.bukkit.event.Listener {
 			
 			int k2 = k + 9;
 			int k3 = k2 + 9;
-			
+			System.out.println(k + " " + k2 + " " + k3);
 			ItemStack itemStack1 = inventory.getItem(k) == null ? new ItemStack(Material.AIR) : inventory.getItem(k);
 			ItemStack itemStack2 = inventory.getItem(k2) == null ? new ItemStack(Material.AIR) : inventory.getItem(k2);
 			ItemStack itemStack3 = inventory.getItem(k3) == null ? new ItemStack(Material.AIR) : inventory.getItem(k3);
-			
+			System.out.println(itemStack1 + " " + itemStack2 + " " + itemStack3);
 			Merch merch = new Merch(itemStack1, itemStack2, itemStack3);
 			merchs.add(merch);
 			
