@@ -74,14 +74,6 @@ public class NMSMerchant implements InvocationHandler
         }
     }
     
-    public void clearRecipes() {
-        this.o.clear();
-    }
-    
-    public void setRecipes(final ReflectionUtils.NMSMerchantRecipeList recipes) {
-        this.o = recipes;
-    }
-    
     public void openTrading(final Object player) {
         this.c = player;
         try {

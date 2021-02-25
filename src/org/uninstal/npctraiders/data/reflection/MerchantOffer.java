@@ -15,18 +15,6 @@ public class MerchantOffer
         this.items[2] = re;
     }
     
-    public MerchantOffer(final ItemStack is, final ItemStack re) {
-        this(is, null, re);
-    }
-    
-    protected MerchantOffer(final ReflectionUtils.NMSMerchantRecipe handle) {
-        this.items = new ItemStack[3];
-        this.maxUses = Integer.MAX_VALUE;
-        this.items[0] = ReflectionUtils.OBCCraftItemStack.asBukkitCopy(handle.getBuyItem1());
-        this.items[1] = ((handle.getBuyItem2() == null) ? null : ReflectionUtils.OBCCraftItemStack.asBukkitCopy(handle.getBuyItem2()));
-        this.items[2] = ReflectionUtils.OBCCraftItemStack.asBukkitCopy(handle.getBuyItem3());
-    }
-    
     protected ReflectionUtils.NMSMerchantRecipe getHandle() {
         ReflectionUtils.NMSMerchantRecipe nms;
         if (this.items[1] == null) {
@@ -49,19 +37,5 @@ public class MerchantOffer
     
     public ItemStack getOutput() {
         return this.items[2];
-    }
-    
-    public int getMaxUses() {
-        return this.maxUses;
-    }
-    
-    public void setMaxUses(final int maxUses) {
-        this.maxUses = maxUses;
-    }
-    
-    public MerchantOffer clone() {
-        final MerchantOffer clone = new MerchantOffer(this.getFirstInput(), this.getSecondInput(), this.getOutput());
-        clone.setMaxUses(this.getMaxUses());
-        return clone;
     }
 }

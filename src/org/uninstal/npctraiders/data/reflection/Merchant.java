@@ -6,7 +6,6 @@ package org.uninstal.npctraiders.data.reflection;
 
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.lang.reflect.Proxy;
 import org.bukkit.Bukkit;
 
@@ -32,25 +31,6 @@ public class Merchant
         return this;
     }
     
-    public Merchant addOffers(final MerchantOffer[] offers) {
-        for (final MerchantOffer o : offers) {
-            this.addOffer(o);
-        }
-        return this;
-    }
-    
-    public Merchant setOffers(final List<MerchantOffer> offers) {
-        this.h.clearRecipes();
-        for (final MerchantOffer o : offers) {
-            this.addOffer(o);
-        }
-        return this;
-    }
-    
-    public boolean hasCustomer() {
-        return this.h.getEntityHuman() != null;
-    }
-    
     public Player getCustomer() {
         return (this.h.getEntityHuman() == null) ? null : this.h.getBukkitEntity();
     }
@@ -62,9 +42,5 @@ public class Merchant
     
     public void openTrading(final Player player) {
         this.h.openTrading(ReflectionUtils.toEntityHuman(player));
-    }
-    
-    protected NMSMerchant getHandle() {
-        return this.h;
     }
 }
